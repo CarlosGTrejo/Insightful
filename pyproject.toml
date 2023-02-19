@@ -1,0 +1,17 @@
+[tool.pdm]
+
+[project]
+name = ""
+version = ""
+description = ""
+authors = [
+    {name = "Carlos Guadarrama-Trejo", email = "37058445+CarlosGTrejo@users.noreply.github.com"},
+]
+dependencies = [
+    "openai-whisper>=20230124",
+    "uvicorn[standard]>=0.20.0",
+    "fastapi>=0.92.0",
+    "websockets>=10.4",
+]
+requires-python = ">=3.10"
+license = {text = "GPL-3.0"}
