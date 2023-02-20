@@ -1,46 +1,40 @@
+<!-- Sends audio file to backend for processing then displays the option to download it when it receives it back. -->
 <script>
-  import svelteLogo from './assets/svelte.svg'
-  import Counter from './lib/Counter.svelte'
+  let file;
+  let socket;
+  let audio_file;
+  let elapsed_time;
+
+  async function handleFileUpload(event) {
+    file = event.target.files[0];
+
+    if (!socket || socket.readyState !== WebSocket.OPEN) {
+      socket = new WebSocket("ws://localhost:8000/ws");
+    }
+
+    socket.binaryType = "arraybuffer";
+
+    socket.addEventListener("open", (event) => {
+      socket.send(file);
+    });
+    // Count processing time after file is sent.
+    const start_time = performance.now();
+
+    socket.addEventListener("message", (event) => {
+      audio_file = new Blob([event.data], { type: "audio/mpeg" });
+      const end_time = performance.now();
+      // Calculate processing time
+      elapsed_time = Math.round(end_time - start_time);
+    });
+  }
 </script>
 
 <main>
-  <div>
-    <a href="https://vitejs.dev" target="_blank" rel="noreferrer"> 
-      <img src="/vite.svg" class="logo" alt="Vite Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank" rel="noreferrer"> 
-      <img src={svelteLogo} class="logo svelte" alt="Svelte Logo" />
-    </a>
-  </div>
-  <h1>Vite + Svelte</h1>
-
-  <div class="card">
-    <Counter />
-  </div>
-
-  <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme" target="_blank" rel="noreferrer">SvelteKit</a>, the official Svelte app framework powered by Vite!
-  </p>
-
-  <p class="read-the-docs">
-    Click on the Vite and Svelte logos to learn more
-  </p>
+  <input type="file" accept="audio/mpeg" on:change={handleFileUpload} />
+  {#if audio_file}
+    <p>Processing Time: {elapsed_time}ms</p>
+    <a href={URL.createObjectURL(audio_file)} download="audio.mp3"
+      >Download Processed Audio</a
+    >
+  {/if}
 </main>
-
-<style>
-  .logo {
-    height: 6em;
-    padding: 1.5em;
-    will-change: filter;
-    transition: filter 300ms;
-  }
-  .logo:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
-  }
-  .logo.svelte:hover {
-    filter: drop-shadow(0 0 2em #ff3e00aa);
-  }
-  .read-the-docs {
-    color: #888;
-  }
-</style>
