@@ -15,7 +15,9 @@ A productivity tool using ASR and LLM technology to help users inspect recording
 3. Install project dependencies (Backend): `pdm install`
 4. Install project dependencies (Frontend): `yarn install`
 
-
+## Run
+1. Run the frontend: `yarn dev`
+2. Run the backend: `py backend/main.py`
 
 
 ## Recommended IDE Setup
