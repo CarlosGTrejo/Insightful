@@ -2,14 +2,16 @@
 A productivity tool using ASR and LLM technology to help users inspect recordings with ease.
 
 ## Requirements
-1. [Python 3.10](https://www.python.org/downloads/release/python-31010/#:~:text=Full%20Changelog-,Files,-Version)
-    1.1 pipx: optional, but encouraged `pip install -U pipx`
-    1.2 pdm: **required**, encouraged to be installed using pipx (`pipx install -U pdm`)
+1. [Python 3.10](https://www.python.org/downloads/release/python-31010/#:~:text=Full%20Changelog-,Files,-Version)  
+    1.1 pipx: optional, but encouraged `pip install -U pipx`  
+    1.2 pdm: **required**, encouraged to be installed using pipx (`pipx install -U pdm`)  
 2. [Node >=18.6 <=18.14.1](https://nodejs.org/en/)
     2.1 Enable corepack: `corepack enable` (required for Yarn)
 3. [Yarn ~=3](https://yarnpkg.com/) `corepack prepare yarn@stable --activate`
+4. *Optional: [Github-CLI](https://cli.github.com/) to clone the github repository easily.
 
 ## Setup
+0. Clone the repo: `gh repo clone CarlosGTrejo/Insightful`
 1. Enable pep582: `pdm --pep582`
 2. `cd Insightful`
 3. Install project dependencies (Backend): `pdm install`
