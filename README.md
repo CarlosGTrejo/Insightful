@@ -4,7 +4,8 @@ A productivity tool using ASR and LLM technology to help users inspect recording
 ## Requirements
 1. [Python 3.10](https://www.python.org/downloads/release/python-31010/#:~:text=Full%20Changelog-,Files,-Version)  
     1.1 pipx: optional, but encouraged `pip install -U pipx`  
-    1.2 pdm: **required**, encouraged to be installed using pipx (`pipx install -U pdm`)  
+    1.2 ipython: optional `pipx install ipython`  
+    1.3 pdm: **required**, encouraged to be installed using pipx (`pipx install -U pdm`)  
 2. [Node >=18.6 <=18.14.1](https://nodejs.org/en/)
     2.1 Enable corepack: `corepack enable` (required for Yarn)
 3. [Yarn ~=3](https://yarnpkg.com/) `corepack prepare yarn@stable --activate`
