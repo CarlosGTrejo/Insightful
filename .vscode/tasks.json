@@ -1,0 +1,31 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Start Backend",
+            "command": "py",
+            "args": ["main.py"],
+            "options": {
+                "cwd": "${workspaceFolder}/backend"
+            },
+            "presentation": {
+                "group": "app"
+            },
+        },
+        {
+            "label": "Start Frontend",
+            "type": "shell",
+            "command": "yarn",
+            "args": ["dev"],
+            "presentation": {
+                "group": "app"
+            },
+        },
+        {
+            "label": "Start App",
+            "dependsOn": ["Start Backend", "Start Frontend"]
+        }
+    ]
+}
