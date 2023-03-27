@@ -25,6 +25,7 @@
       const end_time = performance.now();
       // Calculate processing time
       elapsed_time = Math.round(end_time - start_time);
+      console.log(`%c ⏱️ Processing time: ${elapsed_time.toLocaleString("en-US")}ms`, 'background-color: yellow; color: black; font-weight: bold; font-size: 30px; font-family: "Ubuntu Mono", monospace, sans-serif')
     });
   }
 </script>
@@ -32,9 +33,6 @@
 <main>
   <input type="file" accept="audio/mpeg" on:change={handleFileUpload} />
   {#if audio_file}
-    <p>Processing Time: {elapsed_time}ms</p>
-    <a href={URL.createObjectURL(audio_file)} download="audio.mp3"
-      >Download Processed Audio</a
-    >
+    <a href={URL.createObjectURL(audio_file)} download="audio.flac">Download Processed Audio</a>
   {/if}
 </main>
