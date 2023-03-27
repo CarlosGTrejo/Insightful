@@ -8,10 +8,19 @@ authors = [
     {name = "Carlos Guadarrama-Trejo", email = "37058445+CarlosGTrejo@users.noreply.github.com"},
 ]
 dependencies = [
-    "openai-whisper>=20230124",
-    "uvicorn[standard]>=0.20.0",
-    "fastapi>=0.92.0",
+    "torch>=2.0.0",
+    "torchaudio>=2.0.1",
+    "ffmpeg-python>=0.2.0",
+    "openai-whisper>=20230314",
     "websockets>=10.4",
+    "uvicorn[standard]>=0.21.1",
+    "fastapi>=0.95.0",
+    "soundfile>=0.12.1",
 ]
-requires-python = "~=3.10"
-license = {text = "GPL-3.0"}
+requires-python = ">=3.10"
+license = {text = "GPL-3.0-only"}
+
+[[tool.pdm.source]]
+url = "https://download.pytorch.org/whl/cu118"
+verify_ssl = true
+name = "pytorch-cuda"
