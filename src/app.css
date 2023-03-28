@@ -1,7 +1,8 @@
 @import './lib/reset.css';
 @import './lib/normalize.css';
+@import 'carbon-components-svelte/css/g100.css';
 
-:root {
+/* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -23,4 +24,4 @@
 
 #app {
   margin: 0;
-}
+} */

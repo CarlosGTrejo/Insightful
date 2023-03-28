@@ -1,5 +1,6 @@
-<!-- Sends audio file to backend for processing then displays the option to download it when it receives it back. -->
 <script>
+  import { Loading } from 'carbon-components-svelte';
+
   let file;
   let socket;
   let transcript;
@@ -45,7 +46,7 @@
 <main>
   <input type="file" accept="audio/*" on:change={handleFileUpload} />
   {#if loading}
-    <p>Loading...</p>
+    <Loading />
   {:else}
     <p>{transcript ? transcript: 'No transcript available'}</p>
   {/if}
