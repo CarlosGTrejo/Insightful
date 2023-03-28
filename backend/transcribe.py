@@ -1,14 +1,18 @@
 import whisper
-
-model = whisper.load_model('base')
+import audio_utils
 
 options = {
     'language': 'en',
     'task': 'transcribe'
 }
 
-result = model.transcribe('back-to-the-future.mp3', word_timestamps=True, **options)
+model = whisper.load_model('base', device='cuda', download_root='./models')
 
 
-with open('back-to-the-future.mp3', 'rb') as f:
-    file_bytes = f.read()
+def transcription_pipeline(audio_bytes: bytes) -> str:
+    audio = audio_utils.load_audio(audio_bytes)
+    result = model.transcribe(audio, **options)
+    transcript = result.get('text')
+    if not isinstance(transcript, str):
+        transcript = 'No transcript available'
+    return transcript

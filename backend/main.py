@@ -1,6 +1,6 @@
 from fastapi import FastAPI, WebSocket
 import uvicorn
-import audio_utils
+import transcribe
 import logging
 from time import perf_counter
 
@@ -29,11 +29,12 @@ async def websocket_endpoint(websocket: WebSocket):
 
             # Process file (example: convert file to flac)
             # converted_file = audio_utils.mp3_to_flac(file_bytes)  # 1.0262s / 2,727ms
-            converted_file = audio_utils.audio_to_flac(file_bytes)  # 1.0252s / 2,762ms
+            # converted_file = audio_utils.audio_to_flac(file_bytes)  # 1.0252s / 2,762ms
+            transcript = transcribe.transcription_pipeline(file_bytes)
             end = perf_counter()
 
             # Return processed file to client
-            await websocket.send_bytes(converted_file)
+            await websocket.send_text(transcript)
 
             LOG.info(f'File was processed in {end-start:.4f} seconds')
 
