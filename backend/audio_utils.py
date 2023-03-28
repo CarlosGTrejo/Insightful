@@ -8,7 +8,7 @@ def audio_to_flac(audio_bytes: bytes) -> bytes:
         ffmpeg
         .input('pipe:', threads=0)
         .output('pipe:', format='flac')
-        .run_async(pipe_stdin=True, pipe_stdout=True)
+        .run_async(cmd=['ffmpeg', '-hide_banner'], pipe_stdin=True, pipe_stdout=True)
     )
 
     out, _ = process.communicate(input=audio_bytes)  # process mp3_bytes
@@ -34,7 +34,7 @@ def load_audio(audio_bytes: bytes, sr: int = 16_000) -> np.ndarray:
         out, _ = (
             ffmpeg.input('pipe:', threads=0)
             .output("pipe:", format="s16le", acodec="pcm_s16le", ac=1, ar=sr)
-            .run_async(pipe_stdin=True, pipe_stdout=True)
+            .run_async(cmd=['ffmpeg', '-hide_banner'], pipe_stdin=True, pipe_stdout=True)
         ).communicate(input=audio_bytes)
 
     except ffmpeg.Error as e:
