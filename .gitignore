@@ -473,3 +473,5 @@ package
 # End of https://www.toptal.com/developers/gitignore/api/pycharm+all,visualstudiocode,python,svelte,node,yarn,storybookjs
 
 !src/lib
+
+backend/models/*
