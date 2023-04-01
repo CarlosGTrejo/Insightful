@@ -1,5 +1,32 @@
 <script>
+  import {
+    Header,
+    HeaderNav,
+    HeaderNavItem,
+    HeaderNavMenu,
+    SideNav,
+    SideNavItems,
+    SideNavMenu,
+    SideNavMenuItem,
+    SideNavLink,
+    SideNavDivider,
+    SkipToContent,
+    Content,
+    Grid,
+    Row,
+    Column,
+  } from "carbon-components-svelte";
+  import { Help } from 'carbon-icons-svelte/lib/Help.svelte';
+  //import { Help } from 'carbon-icons-svelte/lib/Help.svelte';
   import { Loading } from 'carbon-components-svelte';
+  import { TextArea } from "carbon-components-svelte";
+  import { Button } from "carbon-components-svelte";
+  import { FileUploader } from "carbon-components-svelte";
+  import { Tooltip } from "carbon-components-svelte";
+  import { Tile } from "carbon-components-svelte";
+  import { Modal } from "carbon-components-svelte";
+  import { Search } from "carbon-components-svelte";
+
 
   let file;
   let socket;
@@ -42,6 +69,8 @@
     });
   }
 </script>
+
+<Button>Primary button</Button>
 
 <main>
   <input type="file" accept="audio/*" on:change={handleFileUpload} />
