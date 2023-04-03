@@ -7,6 +7,8 @@
   let elapsed_time;
   let loading = false;
   let start_time;
+  let data;
+  let summary;
 
   async function handleFileUpload(event) {
     file = event.target.files[0];
@@ -31,7 +33,9 @@
     // Receive data
     socket.addEventListener("message", (event) => {
       console.dir(event)
-      transcript = event.data;
+      data = JSON.parse(event.data);
+      transcript = data.transcript;
+      summary = data.summary;
 
       loading = false
       const end_time = performance.now();
@@ -49,5 +53,6 @@
     <Loading />
   {:else}
     <p>{transcript ? transcript: 'No transcript available'}</p>
+    <p>{summary ? summary: 'No summary available'}</p>
   {/if}
 </main>
