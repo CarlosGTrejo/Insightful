@@ -3,6 +3,7 @@ import uvicorn
 import transcribe
 import logging
 from time import perf_counter
+from summarize import summarize_v2, summarize_v3
 
 app = FastAPI()
 
@@ -31,10 +32,11 @@ async def websocket_endpoint(websocket: WebSocket):
             # converted_file = audio_utils.mp3_to_flac(file_bytes)  # 1.0262s / 2,727ms
             # converted_file = audio_utils.audio_to_flac(file_bytes)  # 1.0252s / 2,762ms
             transcript = transcribe.transcription_pipeline(file_bytes)
+            summary = summarize_v3(transcript, max_len=len(transcript))
             end = perf_counter()
 
             # Return processed file to client
-            await websocket.send_text(transcript)
+            await websocket.send_json({'transcript': transcript, 'summary': summary})
 
             LOG.info(f'File was processed in {end-start:.4f} seconds')
 
