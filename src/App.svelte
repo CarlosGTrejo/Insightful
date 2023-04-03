@@ -1,6 +1,9 @@
 <script>
+  // UIShell (Time Frames/Chapters)
   import {
     Header,
+    HeaderUtilities,
+    HeaderGlobalAction,
     HeaderNav,
     HeaderNavItem,
     HeaderNavMenu,
@@ -17,16 +20,31 @@
     Column,
   } from "carbon-components-svelte";
   import { Help } from 'carbon-icons-svelte/lib/Help.svelte';
-  //import { Help } from 'carbon-icons-svelte/lib/Help.svelte';
+
   import { Loading } from 'carbon-components-svelte';
+
+  // Transcript
   import { TextArea } from "carbon-components-svelte";
   import { Button } from "carbon-components-svelte";
+
+  // File Uploader
   import { FileUploader } from "carbon-components-svelte";
+
+  // Tooltip (Resources)
   import { Tooltip } from "carbon-components-svelte";
+
+  // Tile (Summary)
   import { Tile } from "carbon-components-svelte";
+
+  // Search (Search Transcript)
   import { Modal } from "carbon-components-svelte";
   import { Search } from "carbon-components-svelte";
+  
 
+
+  let isSideNavOpen = false;
+  let open = false;
+  let readonly = true;
 
   let file;
   let socket;
@@ -70,13 +88,80 @@
   }
 </script>
 
-<Button>Primary button</Button>
+
 
 <main>
+
   <input type="file" accept="audio/*" on:change={handleFileUpload} />
   {#if loading}
     <Loading />
   {:else}
     <p>{transcript ? transcript: 'No transcript available'}</p>
   {/if}
+
+  <!--UIShell (Time Frames/Chapters)-->
+  <div>
+    <Header company="Insightful" platformName="" bind:isSideNavOpen>
+     <svelte:fragment slot="skip-to-content">
+      <SkipToContent />
+      </svelte:fragment>
+      <HeaderUtilities>
+        <HeaderGlobalAction aria-label="Help" icon={Help} />
+      </HeaderUtilities>
+    </Header> 
+
+    <SideNav bind:isOpen={isSideNavOpen}>
+      <SideNavItems>
+       <SideNavLink text="chapter 1" />
+       <SideNavLink text="chapter 2" />
+       <SideNavLink text="chapter 3" />
+      </SideNavItems>
+    </SideNav>
+  </div>
+
+  <!--Transcript-->
+  <div>
+    <TextArea
+     readonly
+     labelText="Transcript"
+    />
+  </div>
+
+  <!--File Uploader-->
+  <div class = "fileUploader">
+    <FileUploader
+     multiple
+     labelTitle="Upload a file"
+     buttonLabel="Add files"
+     labelDescription="Max file size is 25Mb. Supported file types are .flac and .mp3"
+     accept={["audio/*"]}
+     status="complete"
+    />
+
+
+    <FileUploaderItem bin:name="file" status="uploading" />
+    <FileUploaderItem bin:name="file" status="complete" />
+ 
+  </div>
+
+  <!--Tile (Summary)-->
+  <div class= "summary">
+    <Tile>Summary</Tile>
+  </div>
+
+  <!--Tooltip (Resources)-->
+  <div class= "resources">
+    <Tooltip>
+      <p>Learn More about Insightful.</p>
+    </Tooltip>
+  </div>
+
+  <!--Transcript Search Bar-->
+  <div class = "search-bar">
+    <form action="https://www.google.com/search" method="get" class="search-bar">
+     <Search size="lg" placeholder="Search Transcript" name="q"/>
+    </form>
+   
+ 
+  </div>
 </main>
