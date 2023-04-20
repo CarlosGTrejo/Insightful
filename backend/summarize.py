@@ -1,9 +1,12 @@
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+from transformers import AutoTokenizer, AutoModelForCausalLM
 from transformers import pipeline
+import torch
 
-model_name = 'facebook/bart-large-cnn'
-tokenizer = AutoTokenizer.from_pretrained(model_name, model_max_length=1024)
-model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+
+device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
+model_name = 'bigscience/bloomz-3b'
+model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype='auto', device_map='auto', offload_folder='offload', offload_state_dict=True).to(device)
+tokenizer = AutoTokenizer.from_pretrained(model_name)
 
 
 def summarize_text(text):
@@ -31,11 +34,14 @@ def summarize_v3(text, max_len: int = 256):
         return summarize_v3(text[:half], max_len=max_len // 2) + summarize_v3(text[half:], max_len=max_len // 2)
 
 
+def bloomz(text):
+    inputs = tokenizer.encode('Summarize the following text: ' + text, return_tensors='pt').to(device)
+    outputs = model.generate(inputs)
+    return tokenizer.decode(outputs[0], skip_special_tokens=True, clean_up_tokenization_spaces=False)
+
+
 if __name__ == '__main__':
 
     input_text = "The United States is experiencing a surge in COVID-19 cases, with many states reporting record numbers of new infections. The rise in cases is believed to be due to the spread of the highly contagious Delta variant, as well as low vaccination rates in some parts of the country."
 
-    print('v2')
-    print(summarize_v2(input_text))
-    print('\n\nv3')
-    print(summarize_v3(input_text))
+    print(bloomz(input_text))

@@ -3,7 +3,7 @@ import uvicorn
 import transcribe
 import logging
 from time import perf_counter
-from summarize import summarize_v2, summarize_v3
+from summarize import summarize_v3
 
 app = FastAPI()
 

@@ -6,7 +6,7 @@ options = {
     'task': 'transcribe'
 }
 
-model = whisper.load_model('base', device='cuda', download_root='./models')
+model = whisper.load_model('base.en', device='cuda', download_root='./models')
 
 
 def transcription_pipeline(audio_bytes: bytes) -> str:
