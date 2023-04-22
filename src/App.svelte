@@ -74,6 +74,7 @@
       on:change={handleFileUpload}
     />
   {:else}
+  <!-- TODO: Style transcript to display like in the Figma design and display "chapters" on the left side with times stamps (eg. use the variable "chapters" which will be an array that holds the chapter title and timestamp as a string, use simulated data if necessary for now) -->
     <p>{transcript ? transcript: 'No transcript available'}</p>
   {/if}
 </main>
