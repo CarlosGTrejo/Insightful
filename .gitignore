@@ -476,3 +476,4 @@ package
 
 backend/models/*
 offload/
+backend/deepgram_key

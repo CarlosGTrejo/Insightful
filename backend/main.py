@@ -28,9 +28,6 @@ async def websocket_endpoint(websocket: WebSocket):
             file_bytes = await websocket.receive_bytes()  # Receive File
             LOG.info(f"Received {len(file_bytes)} bytes of data from WebSocket client")
 
-            # Process file (example: convert file to flac)
-            # converted_file = audio_utils.mp3_to_flac(file_bytes)  # 1.0262s / 2,727ms
-            # converted_file = audio_utils.audio_to_flac(file_bytes)  # 1.0252s / 2,762ms
             transcript = transcribe.transcription_pipeline(file_bytes)
             summary = summarize_v3(transcript, max_len=len(transcript))
             end = perf_counter()
