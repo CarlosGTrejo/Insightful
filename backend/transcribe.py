@@ -25,9 +25,10 @@ def using_whisper(audio_bytes: bytes) -> str:
     return transcript
 
 
-async def using_deepgram(audio: bytes, mimetype: str):
-    '''Transcribes audio with deepgram and returns a tuple of the transcript and summary
-    transcript: str
+async def using_deepgram(audio: bytes, mimetype: str) -> tuple[tuple[tuple[str, float]], str]:
+    '''Transcribes audio with deepgram and returns a tuple of the words and summary
+    tuple(tuple(word, timestamp), summary)
+    words: tuple[tuple[str, float]] = Holds the words of the transcript and their timestamp
     summary: str'''
     deepgram = Deepgram(key)
 
@@ -37,7 +38,7 @@ async def using_deepgram(audio: bytes, mimetype: str):
     }
     options = {
         'punctuate': True,  # Capitalize, add periods, commas, etc.
-        'summarize': True,  # Generate a summary for a sections of the transcript
+        'summarize': True,  # Generate a summary for sections of the transcript
         'numerals': True,  # Change word numbers to digit numbers (eg. one -> 1)
         'model': 'nova',  # Deepgram's latest ARS at the time of writing this
         'language': 'en'
@@ -51,6 +52,7 @@ async def using_deepgram(audio: bytes, mimetype: str):
     )
 
     summary = utils.get_summary(response)
-    transcript = utils.get_transcript(response)
+    # transcript = utils.get_transcript(response)
+    words = utils.get_words(response)
 
-    return transcript, summary
+    return words, summary

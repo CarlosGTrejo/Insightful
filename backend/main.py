@@ -35,8 +35,7 @@ async def websocket_endpoint(websocket: WebSocket):
                 LOG.warning('Development mode enabled')
                 transcript, summary = utils.dev()
             else:  # Else upload file to deepgram and continue as normal
-                transcript = await transcribe.using_deepgram(file_bytes, mimetype)
-                summary = 'lorem ipsum'  # TODO: add summarization using deepgram
+                transcript, summary = await transcribe.using_deepgram(file_bytes, mimetype)
             end = perf_counter()
 
             # Return processed file to client
