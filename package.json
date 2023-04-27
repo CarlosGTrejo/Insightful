@@ -13,8 +13,12 @@
     "carbon-components-svelte": "^0.73.5",
     "carbon-icons-svelte": "^11.4.0",
     "carbon-preprocess-svelte": "^0.9.1",
+    "sass": "^1.62.0",
     "svelte": "^3.55.1",
     "vite": "^4.1.0"
   },
-  "packageManager": "yarn@3.4.1"
+  "packageManager": "yarn@3.4.1",
+  "dependencies": {
+    "@carbon/type": "^11.17.0"
+  }
 }
