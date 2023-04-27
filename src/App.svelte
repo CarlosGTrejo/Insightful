@@ -1,6 +1,9 @@
 <script>
   import {
     Header,
+    HeaderUtilities,
+    HeaderAction,
+    HeaderGlobalAction,
     SkipToContent,
     FileUploader,
     SideNav,
@@ -10,13 +13,16 @@
     Grid,
     Row,
     Column,
-    Tile
+    Tile,
+    Modal
   } from "carbon-components-svelte";
   import { onMount } from 'svelte';
+  import Help from "carbon-icons-svelte/lib/Help.svelte";
   
   let url = ``;
   onMount(() => url = window.location.href);
 
+  let open = true;
   let isSideNavOpen = false;
   let chapters = [];
   let title;
@@ -110,7 +116,20 @@
   <svelte:fragment slot="skip-to-content">
     <SkipToContent />
   </svelte:fragment>
+  <HeaderUtilities>
+    <HeaderAction bind:isOpen={open} icon={Help}>
+    </HeaderAction>
+  </HeaderUtilities>
 </Header>
+
+<Modal passiveModal bind:open modalHeading="Welcome to Insightful" on:open on:close>
+  <p>
+    Insightful is a tool for transcribing and summarizing audio files. Upload an audio 
+    file to get started.
+  </p>
+  <p>Files may not be larger than 25 MB nor longer than 60 minutes.</p>
+  <p>To view this window again, click the "Help" icon in the top-right of this page.</p>
+</Modal>
 
 
 {#if !processed}
