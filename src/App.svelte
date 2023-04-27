@@ -13,25 +13,28 @@
     Tile
   } from "carbon-components-svelte";
   import { onMount } from 'svelte';
-  
+
   let url = ``;
   onMount(() => url = window.location.href);
 
   let isSideNavOpen = false;
   let chapters = [];
-  let title;
 
-  let processed = false;
   let file;
   let socket;
   let elapsed_time; // Used to measure perf
   let start_time;  // Used to measure perf
-  let summary;
-  let transcript;
-  let data;
+  let processed = false;
+
+  let title;  // file name (not sure how to generate better title)
+  let summary;  // audio summary
+  let transcript;  // array of word and its timestamp
+  let currentTime;  // audio element timestamp
+  let data;  // Data received from the backend
 
   async function handleFileUpload(event) {
     file = event.detail[0];  // Get file from event
+    title = file.name;
 
     // Send file if websocket is already open
     if (!socket || socket.readyState !== WebSocket.OPEN) {
@@ -47,10 +50,10 @@
       socket.addEventListener("open", (event) => {
         start_time = performance.now();  // Start perf counter
         socket.send(file)  // Send file to server
-        if (file.name === '!dev.mp3') {  // Used for testing purposes to avoid
-          socket.send('dev/file')               // using up all of our deepgram credit
+        if (file.name === '!dev.mp3') {  // Send custom mimetype to flag server to use development mode.
+          socket.send('dev/file')
         } else {
-          socket.send(file.type) // Send mimetype
+          socket.send(file.type) // Send normal mimetype
         }
       })
 
@@ -66,7 +69,7 @@
     socket.addEventListener("message", (event) => {
       console.dir(event)
       data = JSON.parse(event.data);
-      transcript = data.transcript;
+      transcript = data.transcript;  // Contains words and their timestamp
       summary = data.summary;
 
       const end_time = performance.now();  // Stop perf counter
@@ -96,13 +99,17 @@
   p {
     @include type-style('body-02');
     margin-top: 1em;
+    max-width: 100%;
   }
   audio {
     height: 2.5em;
     margin-top: 1em;
     min-width: 100%;
   }
-
+  .highlight {
+    background-color: white;
+    color: black;
+  }
 </style>
 
 
@@ -140,13 +147,17 @@
         <!-- Transcript + audio player -->
         <Column sm={2} md={8} lg={10}>
           <h1>{title}</h1>
-          <audio controls src="{URL.createObjectURL(file)}"></audio>
-          <p>{transcript ? transcript: 'No transcript available'}</p>
+          <audio controls src="{URL.createObjectURL(file)}" bind:currentTime></audio>
+          <p>
+            {#each transcript as [word, start_ts, end_ts]}
+              <span class:highlight="{start_ts <= currentTime && currentTime < end_ts}">{word} </span>
+            {/each}
+          </p>
         </Column>
         <Column sm={1} md={4} lg={5}>
           <Tile>
             <h1>Summary</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. At veniam, nesciunt nostrum qui quis provident veritatis minus deserunt voluptate sequi aperiam? Facere officia quam tenetur labore optio nam esse quae.</p>
+            <p>{summary}</p>
           </Tile>
         </Column>
       </Row>
