@@ -123,10 +123,7 @@
 </Header>
 
 <Modal passiveModal bind:open modalHeading="Welcome to Insightful" on:open on:close>
-  <p>
-    Insightful is a tool for transcribing and summarizing audio files. Upload an audio 
-    file to get started.
-  </p>
+  <p>Insightful is a tool for transcribing and summarizing audio files. Upload an audio file to get started.</p>
   <p>Files may not be larger than 25 MB nor longer than 60 minutes.</p>
   <p>To view this window again, click the "Help" icon in the top-right of this page.</p>
 </Modal>
