@@ -70,7 +70,10 @@
       console.dir(event)
       data = JSON.parse(event.data);
       transcript = data.transcript;  // Contains words and their timestamp
-      summary = data.summary;
+      summary = data.summary.join('\n\n');
+      chapters = data.summary.filter((summary) => {
+        return summary
+      })
 
       const end_time = performance.now();  // Stop perf counter
 
@@ -79,6 +82,12 @@
       console.log(`%c ⏱️ Processing time: ${elapsed_time.toLocaleString("en-US")}ms`, 'background-color: yellow; color: black; font-weight: bold; font-size: 30px; font-family: "Ubuntu Mono", monospace, sans-serif')
       processed = true;  // File is done being processed, set to true so that transcript shows up.
     });
+  }
+
+  function jump(timestamp) {
+    return function (e) {
+      currentTime = timestamp;
+    }
   }
 </script>
 
@@ -134,6 +143,7 @@
     </Content>
 {:else}
 <!-- Add chapters to the side bar -->
+<!-- TODO: Add chapters feature -->
   <SideNav bind:isOpen={isSideNavOpen}>
     <SideNavItems>
       {#each chapters as chapter}
@@ -150,7 +160,7 @@
           <audio controls src="{URL.createObjectURL(file)}" bind:currentTime></audio>
           <p>
             {#each transcript as [word, start_ts, end_ts]}
-              <span class:highlight="{start_ts <= currentTime && currentTime < end_ts}">{word} </span>
+              <span class:highlight="{start_ts <= currentTime && currentTime < end_ts}" on:click={jump(start_ts)}>{word} </span>
             {/each}
           </p>
         </Column>
