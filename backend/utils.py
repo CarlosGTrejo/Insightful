@@ -6,20 +6,6 @@ def _get_main_content(response):
     return response['results']['channels'][0]['alternatives'][0]
 
 
-def dev() -> tuple[tuple[tuple[str, float, float]], str]:
-    '''Returns sample data from a Back to the Future clip for testing purposes.'''
-    with open('response-summarize-numerals.json', 'r') as f:
-        response = json.load(f)
-
-    transcript = get_words(response)
-    summary = '\n\n'.join([
-        summary_dict['summary']
-        for summary_dict
-        in _get_main_content(response)['summaries']
-    ])
-    return transcript, summary
-
-
 def get_summary(response) -> str:
     summary = '\n\n'.join([
         summary_dict['summary']
@@ -46,3 +32,13 @@ def get_words(response) -> tuple[tuple[str, float, float]]:
         in _get_main_content(response)['words']
     )
     return words
+
+
+def dev() -> tuple[tuple[tuple[str, float, float]], str]:
+    '''Returns sample data from a Back to the Future clip for testing purposes.'''
+    with open('response-summarize-numerals.json', 'r') as f:
+        response = json.load(f)
+
+    transcript = get_words(response)
+    summary = get_summary(response)
+    return transcript, summary

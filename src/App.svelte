@@ -69,8 +69,8 @@
     socket.addEventListener("message", (event) => {
       console.dir(event)
       data = JSON.parse(event.data);
-      transcript = data.transcript;  // Contains words and their timestamp
-      summary = data.summary.join('\n\n');
+      transcript = data.transcript;  // Contains words and their timestamp [['word', 0.24, 0.89], ...]
+      summary = data.summary;
       chapters = data.summary.filter((summary) => {
         return summary
       })
