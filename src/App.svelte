@@ -1,5 +1,9 @@
 <script>
   import { Loading } from 'carbon-components-svelte';
+  import { onMount } from 'svelte';
+
+  let url = ``;
+  onMount(() => url = window.location.href);
 
   let file;
   let socket;
@@ -15,14 +19,20 @@
     loading = true;
 
 
-    // Send File
+    // Send file if websocket is already open
     if (!socket || socket.readyState !== WebSocket.OPEN) {
-      socket = new WebSocket("ws://localhost:8000/ws");
+      if (url.includes('localhost')) {
+        console.log('🧪 Development mode? Probably.')
+        socket = new WebSocket("ws://localhost:8000/ws");
+      } else {
+        socket = new WebSocket("ws://localhost:8000/ws");  // TODO: Change this for production
+      }
 
+      // Send File
       socket.addEventListener("open", (event) => {
         start_time = performance.now();  // Start perf counter
         socket.send(file)  // Send file to server
-        if (file.name === '!dev') {  // Used for testing purposes to avoid
+        if (file.name === '!dev.mp3') {  // Used for testing purposes to avoid
           socket.send('dev/file')               // using up all of our deepgram credit
         } else {
           socket.send(file.type) // Send mimetype
