@@ -14,12 +14,19 @@
     file = event.target.files[0];
     loading = true;
 
+
+    // Send File
     if (!socket || socket.readyState !== WebSocket.OPEN) {
       socket = new WebSocket("ws://localhost:8000/ws");
 
       socket.addEventListener("open", (event) => {
         start_time = performance.now();  // Start perf counter
         socket.send(file)  // Send file to server
+        if (file.name === '!dev') {  // Used for testing purposes to avoid
+          socket.send('dev/file')               // using up all of our deepgram credit
+        } else {
+          socket.send(file.type) // Send mimetype
+        }
       })
 
       // Error handling
@@ -29,6 +36,7 @@
     } else {
       socket.send(file);  // Send file if socket is open already
     }
+
 
     // Receive data
     socket.addEventListener("message", (event) => {

@@ -1,9 +1,10 @@
-from fastapi import FastAPI, WebSocket
-import uvicorn
-import transcribe
 import logging
+import utils
 from time import perf_counter
-from summarize import summarize_v3
+
+import transcribe
+import uvicorn
+from fastapi import FastAPI, WebSocket
 
 app = FastAPI()
 
@@ -26,10 +27,16 @@ async def websocket_endpoint(websocket: WebSocket):
         while True:
             start = perf_counter()  # begin processing timer
             file_bytes = await websocket.receive_bytes()  # Receive File
+            mimetype = await websocket.receive_text()  # Receive File mimetype
+
             LOG.info(f"Received {len(file_bytes)} bytes of data from WebSocket client")
 
-            transcript = transcribe.transcription_pipeline(file_bytes)
-            summary = summarize_v3(transcript, max_len=len(transcript))
+            if mimetype == 'dev/file':  # Check for development/testing mode
+                LOG.warning('Development mode enabled')
+                transcript, summary = utils.dev()
+            else:  # Else upload file to deepgram and continue as normal
+                transcript = await transcribe.using_deepgram(file_bytes, mimetype)
+                summary = 'lorem ipsum'  # TODO: add summarization using deepgram
             end = perf_counter()
 
             # Return processed file to client
