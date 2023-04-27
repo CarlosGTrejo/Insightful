@@ -6,19 +6,17 @@ import whisper
 from deepgram import Deepgram
 
 
-# Get api key
+# Get deepgram api key
 with open('deepgram_key', 'r') as f:
     key = f.read().strip()
 
-options = {
-    'language': 'en',
-    'task': 'transcribe'
-}
-
-model = whisper.load_model('base.en', device='cuda', download_root='./models')
-
 
 def using_whisper(audio_bytes: bytes) -> str:
+    model = whisper.load_model('base.en', device='cuda', download_root='./models')
+    options = {
+        'language': 'en',
+        'task': 'transcribe'
+    }
     audio = audio_utils.load_audio(audio_bytes)
     result = model.transcribe(audio, **options)
     transcript = result.get('text')
@@ -28,6 +26,9 @@ def using_whisper(audio_bytes: bytes) -> str:
 
 
 async def using_deepgram(audio: bytes, mimetype: str):
+    '''Transcribes audio with deepgram and returns a tuple of the transcript and summary
+    transcript: str
+    summary: str'''
     deepgram = Deepgram(key)
 
     source = {
@@ -35,10 +36,10 @@ async def using_deepgram(audio: bytes, mimetype: str):
         'mimetype': mimetype
     }
     options = {
-        'punctuate': True,
-        'summarize': True,
-        'numerals': True,
-        'model': 'nova',
+        'punctuate': True,  # Capitalize, add periods, commas, etc.
+        'summarize': True,  # Generate a summary for a sections of the transcript
+        'numerals': True,  # Change word numbers to digit numbers (eg. one -> 1)
+        'model': 'nova',  # Deepgram's latest ARS at the time of writing this
         'language': 'en'
     }
 
