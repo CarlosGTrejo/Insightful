@@ -1,8 +1,10 @@
-from fastapi import FastAPI, WebSocket
-import uvicorn
-import transcribe
 import logging
+import utils
 from time import perf_counter
+
+import transcribe
+import uvicorn
+from fastapi import FastAPI, WebSocket
 
 app = FastAPI()
 
@@ -25,16 +27,19 @@ async def websocket_endpoint(websocket: WebSocket):
         while True:
             start = perf_counter()  # begin processing timer
             file_bytes = await websocket.receive_bytes()  # Receive File
+            mimetype = await websocket.receive_text()  # Receive File mimetype
+
             LOG.info(f"Received {len(file_bytes)} bytes of data from WebSocket client")
 
-            # Process file (example: convert file to flac)
-            # converted_file = audio_utils.mp3_to_flac(file_bytes)  # 1.0262s / 2,727ms
-            # converted_file = audio_utils.audio_to_flac(file_bytes)  # 1.0252s / 2,762ms
-            transcript = transcribe.transcription_pipeline(file_bytes)
+            if mimetype == 'dev/file':  # Check for development/testing mode
+                LOG.warning('Development mode enabled')
+                transcript, summary = utils.dev()
+            else:  # Else upload file to deepgram and continue as normal
+                transcript, summary = await transcribe.using_deepgram(file_bytes, mimetype)
             end = perf_counter()
 
             # Return processed file to client
-            await websocket.send_text(transcript)
+            await websocket.send_json({'transcript': transcript, 'summary': summary})
 
             LOG.info(f'File was processed in {end-start:.4f} seconds')
 

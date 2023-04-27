@@ -12,6 +12,10 @@
     Column,
     Tile
   } from "carbon-components-svelte";
+  import { onMount } from 'svelte';
+  
+  let url = ``;
+  onMount(() => url = window.location.href);
 
   let isSideNavOpen = false;
   let chapters = [];
@@ -20,19 +24,34 @@
   let processed = false;
   let file;
   let socket;
-  let transcript;
   let elapsed_time; // Used to measure perf
   let start_time;  // Used to measure perf
+  let summary;
+  let transcript;
+  let data;
 
   async function handleFileUpload(event) {
     file = event.detail[0];  // Get file from event
 
-    if (!socket || socket.readyState !== WebSocket.OPEN) {  // Open up a socket if there isn't one open already, then send file
-      socket = new WebSocket("ws://localhost:8000/ws");
+    // Send file if websocket is already open
+    if (!socket || socket.readyState !== WebSocket.OPEN) {
+      if (url.includes('localhost')) {
+        console.log('🧪 Development mode? Probably.')
+        socket = new WebSocket("ws://localhost:8000/ws");
+      } else {
+        socket = new WebSocket("ws://localhost:8000/ws");  // TODO: Change this for production
+      }
 
+
+      // Send File
       socket.addEventListener("open", (event) => {
         start_time = performance.now();  // Start perf counter
         socket.send(file)  // Send file to server
+        if (file.name === '!dev.mp3') {  // Used for testing purposes to avoid
+          socket.send('dev/file')               // using up all of our deepgram credit
+        } else {
+          socket.send(file.type) // Send mimetype
+        }
       })
 
       // Error handling (log errors to console)
@@ -46,7 +65,9 @@
     // Receive data from backend
     socket.addEventListener("message", (event) => {
       console.dir(event)
-      transcript = event.data;
+      data = JSON.parse(event.data);
+      transcript = data.transcript;
+      summary = data.summary;
 
       const end_time = performance.now();  // Stop perf counter
 

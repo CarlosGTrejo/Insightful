@@ -14,7 +14,8 @@
             },
             "presentation": {
                 "group": "app"
-            }
+            },
+            "problemMatcher": []
         },
         {
             "label": "Start Frontend",
@@ -25,7 +26,8 @@
             ],
             "presentation": {
                 "group": "app"
-            }
+            },
+            "problemMatcher": []
         },
         {
             "label": "Start App",

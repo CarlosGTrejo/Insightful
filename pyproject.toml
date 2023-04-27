@@ -16,6 +16,11 @@ dependencies = [
     "uvicorn[standard]>=0.21.1",
     "fastapi>=0.95.0",
     "soundfile>=0.12.1",
+    "transformers>=4.27.3",
+    "sentencepiece>=0.1.97",
+    "accelerate>=0.18.0",
+    "safetensors>=0.3.0",
+    "deepgram-sdk>=2.4.0",
 ]
 requires-python = ">=3.10"
 license = {text = "GPL-3.0-only"}
