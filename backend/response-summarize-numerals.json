@@ -1813,8 +1813,13 @@
                         ],
                         "summaries": [
                             {
-                                "summary": "Doctor Emmett Brown uses a time machine to send Einstein into the future.",
+                                "summary": "Dr. Emmett Brown uses a time machine to send Einstein into the future.",
                                 "start_word": 0,
+                                "end_word": 232
+                            },
+                            {
+                                "summary": "The DeLorean is a time machine",
+                                "start_word": 233,
                                 "end_word": 255
                             }
                         ]
