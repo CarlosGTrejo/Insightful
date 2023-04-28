@@ -75,7 +75,7 @@
       summary = (data.summary.map(dict => dict.summary)).join('\n\n');  // each summary is a dict: {summary: str, start_word: int, end_word: int}
       chapters = data.summary.map(summary_dict => (
           {
-            chapter: summary_dict.summary.slice(0,20).trim() + '...',
+            chapter: summary_dict.summary.slice(0,23).trim() + '...',
             start: transcript[summary_dict.start_word][1],
             end: transcript[summary_dict.end_word-1][2]
           }
