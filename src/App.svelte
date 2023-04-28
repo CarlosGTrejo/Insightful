@@ -32,6 +32,8 @@
   let currentTime;  // audio element timestamp
   let data;  // Data received from the backend
 
+  let currChapter = 0;
+
   async function handleFileUpload(event) {
     file = event.detail[0];  // Get file from event
     title = file.name;
@@ -70,11 +72,15 @@
       console.dir(event)
       data = JSON.parse(event.data);
       transcript = data.transcript;  // Contains words and their timestamp [['word', 0.24, 0.89], ...]
-      summary = data.summary;
-      chapters = data.summary.filter((summary) => {
-        return summary
-      })
-
+      summary = (data.summary.map(dict => dict.summary)).join('\n\n');  // each summary is a dict: {summary: str, start_word: int, end_word: int}
+      chapters = data.summary.map(summary_dict => (
+          {
+            chapter: summary_dict.summary.slice(0,20).trim() + '...',
+            start: transcript[summary_dict.start_word][1],
+            end: transcript[summary_dict.end_word-1][2]
+          }
+        ))
+      console.log(chapters)
       const end_time = performance.now();  // Stop perf counter
 
       // Calculate processing time and log to console
@@ -142,12 +148,10 @@
       </div>
     </Content>
 {:else}
-<!-- Add chapters to the side bar -->
-<!-- TODO: Add chapters feature -->
   <SideNav bind:isOpen={isSideNavOpen}>
     <SideNavItems>
-      {#each chapters as chapter}
-        <SideNavLink text={chapter} />
+      {#each chapters as obj}
+        <SideNavLink text={obj.chapter} isSelected={obj.start <= currentTime && currentTime < obj.end}/>
       {/each}
     </SideNavItems>
   </SideNav>

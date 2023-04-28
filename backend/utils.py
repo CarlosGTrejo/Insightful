@@ -6,13 +6,10 @@ def _get_main_content(response):
     return response['results']['channels'][0]['alternatives'][0]
 
 
-def get_summary(response) -> str:
-    summary = '\n\n'.join([
-        summary_dict['summary']
-        for summary_dict
-        in _get_main_content(response)['summaries']
-    ])
-    return summary
+def get_summaries(response) -> list[dict]:
+    '''Returns the summaries portion of the json response
+    summaries: [{summary: str, start_word: int, end_word: int}, ...]'''
+    return _get_main_content(response)['summaries']
 
 
 def get_transcript(response) -> str:
@@ -34,11 +31,11 @@ def get_words(response) -> tuple[tuple[str, float, float]]:
     return words
 
 
-def dev() -> tuple[tuple[tuple[str, float, float]], str]:
+def dev() -> tuple[tuple[tuple[str, float, float]], list[dict]]:
     '''Returns sample data from a Back to the Future clip for testing purposes.'''
     with open('response-summarize-numerals.json', 'r') as f:
         response = json.load(f)
 
     transcript = get_words(response)
-    summary = get_summary(response)
+    summary = get_summaries(response)
     return transcript, summary

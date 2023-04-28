@@ -22,7 +22,7 @@
             {
                 "alternatives": [
                     {
-                        "transcript": "Alright. I'm ready. Good evening. I'm doctor Emmett Brown. I'm standing in the parking lot at Twin Pines Mall. It's Saturday morning, October 26 19 85, 1 18 a f. This is temporal experiment number 1. Come on, Amy. Hey, boy. Get in there. Dad up, boy. In you go. Get up. Don't you see it fell off? That's it. Oh, whoa. Whoa. Okay. Please note that Einstein's clock is a precise synchronization with my control watch. Got it. Right. Check time. It's good. Have a good trip, Einstein. Watch ahead. Get that thing hooked up to the car. Watch this. Yeah. Okay. Got it. That got me the car of the car. My calculations are correct. When this baby hits 88 miles per hour, you're gonna see some serious shit. Watch this, watch this. That their moon displacement occurred exactly what? 28 AM. 0 seconds. Fuck. Cheers, Bryce. Jesus Christ stuck. You disintegrated Einstein. Calm down, Marty. I didn't disintegrate anything. The molecular structure of both Einstein and the car are completely attacked. And where the hell are they? The appropriate question is, where in the hell are they? You see, Einstein has just become the world's first time. Traveler. I sent him into the future. 1 minute into the future to be exact, sound precisely. 1 21 AM in 0 seconds, we shall catch up with you at the time machine. Wait a minute. Why am I gonna dock. Are you telling me that you built a time machine out of a deloria?",
+                        "transcript": "Alright. I'm ready. Good evening. I'm doctor Emmett Brown. I'm standing in the parking lot at Twin Pines Mall. It's Saturday morning, October 26 19 85, 1 18 a f. This is temporal experiment number 1. Come on, Amy. Hey, boy. Get in there. Dad up, boy. In you go. Get up. Don't you see it fell off? That's it. Oh, whoa. Whoa. Okay. Please note that Einstein's clock is a precise synchronization with my control watch. Got it. Right. Check time. It's good. Have a good trip, Einstein. Watch ahead. Get that thing hooked up to the car. Watch this. Yeah. Okay. Got it. That got me the car of the car. My calculations are correct. When this baby hits 88 miles per hour, you're gonna see some serious shit. Watch this, watch this. That their moon displacement occurred exactly what? 28 AM. 0 seconds. Oh. Cheers, Bryce. Jesus Christ stuck. You disintegrated Einstein. Calm down, Marty. I didn't disintegrate anything. The molecular structure of both Einstein and the car are completely attacked. And where the hell are they? The appropriate question is, where in the hell are they? You see, Einstein has just become the world's first time. Traveler. I sent him into the future. 1 minute into the future to be exact, sound precisely. 1 21 AM in 0 seconds, we shall catch up with you at the time machine. Wait a minute. Why am I gonna dock. Are you telling me that you built a time machine out of a deloria?",
                         "confidence": 0.97998047,
                         "words": [
                             {
@@ -1048,11 +1048,11 @@
                                 "punctuated_word": "seconds."
                             },
                             {
-                                "word": "fuck",
+                                "word": "oh",
                                 "start": 162.26999,
                                 "end": 162.34999,
                                 "confidence": 0.3187256,
-                                "punctuated_word": "Fuck."
+                                "punctuated_word": "Oh."
                             },
                             {
                                 "word": "cheers",

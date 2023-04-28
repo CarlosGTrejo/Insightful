@@ -25,7 +25,7 @@ def using_whisper(audio_bytes: bytes) -> str:
     return transcript
 
 
-async def using_deepgram(audio: bytes, mimetype: str) -> tuple[tuple[tuple[str, float, float]], str]:
+async def using_deepgram(audio: bytes, mimetype: str) -> tuple[tuple[tuple[str, float, float]], list[dict]]:
     '''Transcribes audio with deepgram and returns a tuple of the words and summary
     tuple(tuple(word, start, end), summary)
     words: tuple[tuple[str, float, float]] = Holds the words of the transcript and start/end time
@@ -51,7 +51,7 @@ async def using_deepgram(audio: bytes, mimetype: str) -> tuple[tuple[tuple[str, 
         )
     )
 
-    summary = utils.get_summary(response)
+    summary = utils.get_summaries(response)
     # transcript = utils.get_transcript(response)
     words = utils.get_words(response)
 
