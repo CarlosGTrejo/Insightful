@@ -151,7 +151,7 @@
   <SideNav bind:isOpen={isSideNavOpen}>
     <SideNavItems>
       {#each chapters as obj}
-        <SideNavLink text={obj.chapter} isSelected={obj.start <= currentTime && currentTime < obj.end}/>
+        <SideNavLink text={obj.chapter} isSelected={obj.start <= currentTime && currentTime < obj.end} on:click={jump(obj.start)}/>
       {/each}
     </SideNavItems>
   </SideNav>
