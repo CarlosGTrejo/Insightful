@@ -1,9 +1,9 @@
 <script>
   import {
     Header,
-    HeaderUtilities,
-    HeaderAction,
-    HeaderGlobalAction,
+    //HeaderUtilities,
+    //HeaderAction,
+    //HeaderGlobalAction,
     SkipToContent,
     FileUploader,
     SideNav,
@@ -14,15 +14,15 @@
     Row,
     Column,
     Tile,
-    Modal
+    //Modal
   } from "carbon-components-svelte";
   import { onMount } from 'svelte';
-  import Help from "carbon-icons-svelte/lib/Help.svelte";
+  //import Help from "carbon-icons-svelte/lib/Help.svelte";
   
   let url = ``;
   onMount(() => url = window.location.href);
 
-  let open = true;
+  //let open = false;
   let isSideNavOpen = false;
   let chapters = [];
   let title;
@@ -92,10 +92,16 @@
   .file-uploader-wrapper { // Used to center FileUpload component
     display: grid;
     place-items: center;
-    height: 90vh;
+    //height: 50vh;
   }
 
-  h1 {
+  .landing-page-text {
+    display: grid;
+    place-items: center left;
+    height: 50vh;
+  }
+
+  h4 {
     @include type-style('heading-01');
     // color: #6F6F6F;
   }
@@ -116,30 +122,45 @@
   <svelte:fragment slot="skip-to-content">
     <SkipToContent />
   </svelte:fragment>
-  <HeaderUtilities>
+  <!--<HeaderUtilities>
     <HeaderAction bind:isOpen={open} icon={Help}>
     </HeaderAction>
-  </HeaderUtilities>
+  </HeaderUtilities>-->
 </Header>
 
-<Modal passiveModal bind:open modalHeading="Welcome to Insightful" on:open on:close>
+<!--<Modal passiveModal bind:open modalHeading="Welcome to Insightful" on:open on:close>
   <p>Insightful is a tool for transcribing and summarizing audio files. Upload an audio file to get started.</p>
   <p>Files may not be larger than 25 MB nor longer than 60 minutes.</p>
   <p>To view this window again, click the "Help" icon in the top-right of this page.</p>
-</Modal>
+</Modal>-->
 
 
 {#if !processed}
     <Content>
+      <Grid>
+        <Row>
+          <div class="landing-page-text">
+          <Column sm={3} md={6} lg={12}>
+            <h1>Welcome to Insightful</h1>
+            <p>Insightful is a tool for transcribing and summarizing audio files. Upload an audio file to get started.</p>
+            <p>Files may not be larger than 25 MB nor longer than 60 minutes.</p>
+          </Column>
+        </div>
+        
+      <!--<div>-->
       <div class="file-uploader-wrapper">
-        <FileUploader
-          labelTitle="Upload file"
-          buttonLabel="Add file"
-          labelDescription="Only audio files are accepted."
-          accept={["audio/*"]}
-          on:change={handleFileUpload}
-        />
+        <Column sm={4} md={8} lg={16}>
+          <FileUploader
+            labelTitle="Upload file"
+            buttonLabel="Add file"
+            labelDescription="Only audio files are accepted."
+            accept={["audio/*"]}
+           on:change={handleFileUpload}
+          />
+        </Column>
       </div>
+    </Row>
+  </Grid>
     </Content>
 {:else}
 <!-- Add chapters to the side bar -->
@@ -161,7 +182,7 @@
         </Column>
         <Column sm={1} md={4} lg={5}>
           <Tile>
-            <h1>Summary</h1>
+            <h4>Summary</h4>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. At veniam, nesciunt nostrum qui quis provident veritatis minus deserunt voluptate sequi aperiam? Facere officia quam tenetur labore optio nam esse quae.</p>
           </Tile>
         </Column>
