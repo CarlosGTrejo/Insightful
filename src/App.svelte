@@ -32,7 +32,6 @@
   let socket;
   let elapsed_time; // Used to measure perf
   let start_time;  // Used to measure perf
-  let processed = false;
 
   let title;  // file name (not sure how to generate better title)
   let summary;  // audio summary
@@ -92,7 +91,7 @@
       console.dir(event)
       data = JSON.parse(event.data);
       transcript = data.transcript;  // Contains words and their timestamp [['word', 0.24, 0.89], ...]
-      summary = (data.summary.map(dict => dict.summary)).join('\n\n');  // each summary is a dict: {summary: str, start_word: int, end_word: int}
+      summary = data.openai_summary ? data.openai_summary : (data.summary.map(dict => dict.summary)).join('\n\n');  // each summary is a dict: {summary: str, start_word: int, end_word: int}
       chapters = data.summary.map(summary_dict => (
           {
             chapter: summary_dict.summary.slice(0,23).trim() + '...',
@@ -117,23 +116,10 @@
   }
 </script>
 
-<!-- Issues arose when main was styled as a whole. Each component is stylized inidividually as a result. -->
 <style lang="scss">
   @import '@carbon/type';
 
-  .file-uploader-wrapper { // Used to center FileUpload component
-    display: grid;
-    place-items: center;
-    //height: 50vh;
-  }
-
-  .landing-page-text {
-    display: grid;
-    place-items: center left;
-    height: 50vh;
-  }
-
-  h4 {
+  h1 {
     @include type-style('heading-01');
     // color: #6F6F6F;
   }
@@ -158,17 +144,8 @@
   <svelte:fragment slot="skip-to-content">
     <SkipToContent />
   </svelte:fragment>
-  <!--<HeaderUtilities>
-    <HeaderAction bind:isOpen={open} icon={Help}>
-    </HeaderAction>
-  </HeaderUtilities>-->
 </Header>
 
-<!--<Modal passiveModal bind:open modalHeading="Welcome to Insightful" on:open on:close>
-  <p>Insightful is a tool for transcribing and summarizing audio files. Upload an audio file to get started.</p>
-  <p>Files may not be larger than 25 MB nor longer than 60 minutes.</p>
-  <p>To view this window again, click the "Help" icon in the top-right of this page.</p>
-</Modal>-->
 
 
 {#if !processed}

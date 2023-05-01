@@ -3,6 +3,7 @@ import utils
 from time import perf_counter
 
 import transcribe
+import summarize_openai
 import uvicorn
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 
@@ -40,7 +41,13 @@ async def websocket_endpoint(websocket: WebSocket):
             end = perf_counter()
 
             # Return processed file to client
-            await websocket.send_json({'transcript': transcript, 'summary': summary})
+            await websocket.send_json({
+                'transcript': transcript,  # [[word, start: float, end: float], ...]
+                'summary': summary,
+                'openai_summary': summarize_openai.summarize(
+                    utils.words_to_transcript(transcript)
+                )
+            })
 
             LOG.info(f'File was processed in {end-start:.4f} seconds')
             await websocket.close()

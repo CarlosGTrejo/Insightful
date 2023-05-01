@@ -39,3 +39,7 @@ def dev() -> tuple[tuple[tuple[str, float, float]], list[dict]]:
     transcript = get_words(response)
     summary = get_summaries(response)
     return transcript, summary
+
+
+def words_to_transcript(word_array: tuple[tuple[str, float, float]]) -> str:
+    return ' '.join([arr[0] for arr in word_array])
