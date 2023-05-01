@@ -6,6 +6,7 @@
     //HeaderGlobalAction,
     SkipToContent,
     FileUploader,
+    FileUploaderItem,
     SideNav,
     SideNavItems,
     SideNavLink,
@@ -13,12 +14,11 @@
     Grid,
     Row,
     Column,
-    Tile,
-    //Modal
+    Tile
   } from "carbon-components-svelte";
   import { onMount } from 'svelte';
   //import Help from "carbon-icons-svelte/lib/Help.svelte";
-  
+
   let url = ``;
   onMount(() => url = window.location.href);
 
@@ -28,7 +28,9 @@
   let title;
 
   let processed = false;
+  let fileUploader;
   let file;
+  let is_valid = true;
   let socket;
   let elapsed_time; // Used to measure perf
   let start_time;  // Used to measure perf
@@ -36,9 +38,19 @@
   let transcript;
   let data;
 
+  function timeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   async function handleFileUpload(event) {
     file = event.detail[0];  // Get file from event
-
+    if (file.size > 50_000_000) {
+      await Promise.all([timeout(500)]) // Add a small delay to update file validity
+      fileUploader.clearFiles()
+      is_valid = false;
+      return
+    }
+    is_valid = true;
     // Send file if websocket is already open
     if (!socket || socket.readyState !== WebSocket.OPEN) {
       if (url.includes('localhost')) {
@@ -138,29 +150,35 @@
 {#if !processed}
     <Content>
       <Grid>
-        <Row>
-          <div class="landing-page-text">
-          <Column sm={3} md={6} lg={12}>
-            <h1>Welcome to Insightful</h1>
-            <p>Insightful is a tool for transcribing and summarizing audio files. Upload an audio file to get started.</p>
-            <p>Files may not be larger than 25 MB nor longer than 60 minutes.</p>
-          </Column>
-        </div>
-        
-      <!--<div>-->
-      <div class="file-uploader-wrapper">
-        <Column sm={4} md={8} lg={16}>
-          <FileUploader
-            labelTitle="Upload file"
-            buttonLabel="Add file"
-            labelDescription="Only audio files are accepted."
-            accept={["audio/*"]}
-           on:change={handleFileUpload}
-          />
-        </Column>
-      </div>
-    </Row>
-  </Grid>
+        <Row padding>
+            <Column sm={4} md={8} lg={10}>
+              <h1>Welcome to Insightful</h1>
+              <p>A productivity-boosting application that uses AI technology to help people focus on the key points of an audio recording. It works for a variety of scenarios, such as lectures, speeches, and business meetings, by providing a summary, a complete transcript of the recording and the ability for users to focus and follow along while listening. Upload an audio file to get started.</p>
+              <p>Files may not be larger than 25 MB nor longer than 60 minutes.</p>
+            </Column>
+
+            <Column sm={2} md={4} lg={5}>
+              <FileUploader
+                bind:this={fileUploader}
+                labelTitle="Upload file"
+                buttonLabel="Add file"
+                labelDescription="Max file size is 50Mb. Only common audio files are accepted."
+                accept={["audio/*"]}
+                on:add={handleFileUpload}
+              />
+              {#if !is_valid}
+                <FileUploaderItem
+                  invalid
+                  name={file.name}
+                  errorSubject="File size exceeds 50Mb limit"
+                  errorBody="Please select a new file."
+                  status="edit"
+                  on:delete={(e) => {is_valid=true}}
+                />
+              {/if}
+            </Column>
+        </Row>
+      </Grid>
     </Content>
 {:else}
 <!-- Add chapters to the side bar -->
