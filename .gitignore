@@ -478,3 +478,5 @@ backend/models/*
 offload/
 backend/deepgram_key
 deepgram_key
+backend/openai_key
+openai_key
