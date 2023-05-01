@@ -234,6 +234,17 @@ requires_python = ">=3.8"
 summary = "NumPy is the fundamental package for array computing with Python."
 
 [[package]]
+name = "openai"
+version = "0.27.5"
+requires_python = ">=3.7.1"
+summary = "Python client library for the OpenAI API"
+dependencies = [
+    "aiohttp",
+    "requests>=2.20",
+    "tqdm",
+]
+
+[[package]]
 name = "openai-whisper"
 version = "20230314"
 requires_python = ">=3.8"
@@ -488,7 +499,7 @@ dependencies = [
 [metadata]
 lock_version = "4.2"
 groups = ["default"]
-content_hash = "sha256:ad2630e5b73fd75b27ac9c49610861088aefab3bb6d320b1aa2ca1f70c1f7718"
+content_hash = "sha256:5b56bbda8cb4cbf1cb9c2190f13fe49d842e5588176e2952801470e743f36cd6"
 
 [metadata.files]
 "accelerate 0.18.0" = [
@@ -1159,6 +1170,10 @@ content_hash = "sha256:ad2630e5b73fd75b27ac9c49610861088aefab3bb6d320b1aa2ca1f70
     {url = "https://files.pythonhosted.org/packages/d5/95/f311e6fdaabe24f909eeb6d5482e3adef27fa8389cb8a84823ae560bf480/numpy-1.23.5-cp39-cp39-win32.whl", hash = "sha256:af1da88f6bc3d2338ebbf0e22fe487821ea4d8e89053e25fa59d1d79786e7481"},
     {url = "https://files.pythonhosted.org/packages/e4/f3/679b3a042a127de0d7c84874913c3e23bb84646eb3bc6ecab3f8c872edc9/numpy-1.23.5-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:5e05b1c973a9f858c74367553e236f287e749465f773328c8ef31abe18f691e1"},
     {url = "https://files.pythonhosted.org/packages/e8/ad/b935c7421657a032fd2a5332eed098f3b9993a155afceb1daa280ff6611f/numpy-1.23.5-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:58f545efd1108e647604a1b5aa809591ccd2540f468a880bedb97247e72db387"},
+]
+"openai 0.27.5" = [
+    {url = "https://files.pythonhosted.org/packages/3a/c5/590e2285484583d470dc862b6f3d2629cd32ddc457d8e9de590e0702f491/openai-0.27.5-py3-none-any.whl", hash = "sha256:5b2121d8c0a4350626096fa482306d12e246a83b992530d54fd474f309f2882c"},
+    {url = "https://files.pythonhosted.org/packages/a8/63/06c9af0d68c2d0dc35f69d04fc49a177e3827b57e170cba9d568992f2de9/openai-0.27.5.tar.gz", hash = "sha256:75778ca05759c77dde704985ee16976ba58804212f10e61f44356e68ffb8390e"},
 ]
 "openai-whisper 20230314" = [
     {url = "https://files.pythonhosted.org/packages/80/8b/13b7bf32b83fce396a814678661afdb8839b6b4713b3f2f2bc1499888654/openai-whisper-20230314.tar.gz", hash = "sha256:7a8e62334f97a8d143b439ae8ed6638d78f41ad921a0205382354004b7271725"},
