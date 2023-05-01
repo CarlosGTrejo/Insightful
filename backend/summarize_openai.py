@@ -5,6 +5,7 @@ with open('openai_key', 'r') as f:
 
 
 def summarize(text: str) -> str:
+    '''Generates a summary of a given text using OpenAI's gpt-3.5 model'''
     completion = openai.ChatCompletion.create(
         model='gpt-3.5-turbo',
         messages=[

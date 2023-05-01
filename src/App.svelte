@@ -147,7 +147,7 @@
 </Header>
 
 
-
+<!-- Show on-boarding page on start-up -->
 {#if !processed}
     <Content>
       <Grid>
@@ -167,6 +167,7 @@
                 accept={["audio/*"]}
                 on:add={handleFileUpload}
               />
+              <!-- If the file is not valid (eg. too big) let the user know by rejecting the file -->
               {#if !is_valid}
                 <FileUploaderItem
                   invalid
@@ -184,6 +185,7 @@
 {:else}
   <SideNav bind:isOpen={isSideNavOpen}>
     <SideNavItems>
+      <!-- Populate the chapter side bar using the data received from the backend -->
       {#each chapters as obj}
         <SideNavLink text={obj.chapter} isSelected={obj.start <= currentTime && currentTime < obj.end} on:click={jump(obj.start)}/>
       {/each}
@@ -197,6 +199,8 @@
           <h1>{title}</h1>
           <audio controls src="{URL.createObjectURL(file)}" bind:currentTime></audio>
           <p>
+            <!-- Pair each word with its corresponding timestamp so the user can click on the word to jump to the corresponding audio timestamp -->
+            <!-- This also enables us to highlight each word in real-time as the audio plays -->
             {#each transcript as [word, start_ts, end_ts]}
               <span class:highlight="{start_ts <= currentTime && currentTime < end_ts}" on:click={jump(start_ts)}>{word} </span>
             {/each}
