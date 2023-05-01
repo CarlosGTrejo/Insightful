@@ -4,7 +4,7 @@ from time import perf_counter
 
 import transcribe
 import uvicorn
-from fastapi import FastAPI, WebSocket
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 
 app = FastAPI()
 
@@ -35,6 +35,7 @@ async def websocket_endpoint(websocket: WebSocket):
                 LOG.warning('Development mode enabled')
                 transcript, summary = utils.dev()
             else:  # Else upload file to deepgram and continue as normal
+                LOG.info('Production mode enabled')
                 transcript, summary = await transcribe.using_deepgram(file_bytes, mimetype)
             end = perf_counter()
 
@@ -42,7 +43,9 @@ async def websocket_endpoint(websocket: WebSocket):
             await websocket.send_json({'transcript': transcript, 'summary': summary})
 
             LOG.info(f'File was processed in {end-start:.4f} seconds')
-
+            await websocket.close()
+    except WebSocketDisconnect:
+        LOG.info('File Processed, closing websocket')
     except Exception as e:
         LOG.exception(f'Exception occurred: {e}')
 
