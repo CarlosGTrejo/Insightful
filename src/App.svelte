@@ -155,7 +155,7 @@
             <Column sm={4} md={8} lg={10}>
               <h1>Welcome to Insightful</h1>
               <p>A productivity-boosting application that uses AI technology to help people focus on the key points of an audio recording. It works for a variety of scenarios, such as lectures, speeches, and business meetings, by providing a summary, a complete transcript of the recording and the ability for users to focus and follow along while listening. Upload an audio file to get started.</p>
-              <p>Files may not be larger than 25 MB nor longer than 60 minutes.</p>
+              <p>Files may not be larger than 50 MB.</p>
             </Column>
 
             <Column sm={2} md={4} lg={5}>
