@@ -11,20 +11,6 @@ with open('deepgram_key', 'r') as f:
     key = f.read().strip()
 
 
-def using_whisper(audio_bytes: bytes) -> str:
-    model = whisper.load_model('base.en', device='cuda', download_root='./models')
-    options = {
-        'language': 'en',
-        'task': 'transcribe'
-    }
-    audio = audio_utils.load_audio(audio_bytes)
-    result = model.transcribe(audio, **options)
-    transcript = result.get('text')
-    if not isinstance(transcript, str):
-        transcript = 'No transcript available'
-    return transcript
-
-
 async def using_deepgram(audio: bytes, mimetype: str) -> tuple[tuple[tuple[str, float, float]], list[dict]]:
     '''Transcribes audio with deepgram and returns a tuple of the words and summary
     tuple(tuple(word, start, end), summary)

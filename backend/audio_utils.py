@@ -2,19 +2,6 @@ import ffmpeg
 import numpy as np
 
 
-def audio_to_flac(audio_bytes: bytes) -> bytes:
-    '''Converts mp3 to flac with CUDA hardware acceleration'''
-    process = (
-        ffmpeg
-        .input('pipe:', threads=0)
-        .output('pipe:', format='flac')
-        .run_async(cmd=['ffmpeg', '-hide_banner'], pipe_stdin=True, pipe_stdout=True)
-    )
-
-    out, _ = process.communicate(input=audio_bytes)  # process mp3_bytes
-    return out
-
-
 def load_audio(audio_bytes: bytes, sample_rate: int = 16_000) -> np.ndarray:
     """
     Use file's bytes and transform to mono waveform, resampling as necessary

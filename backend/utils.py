@@ -12,11 +12,6 @@ def get_summaries(response) -> list[dict]:
     return _get_main_content(response)['summaries']
 
 
-def get_transcript(response) -> str:
-    transcript = _get_main_content(response)['transcript']
-    return transcript
-
-
 def get_words(response) -> tuple[tuple[str, float, float]]:
     '''Returns a tuple of tuples that has the values (punctuated_word, start, end).
 
